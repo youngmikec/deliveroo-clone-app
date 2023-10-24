@@ -66,7 +66,7 @@ const styles = StyleSheet.create({
         backgroundColor: '#fff',
     },
     container: {
-        height: 100,
+        height: 90,
         backgroundColor: '#fff',
         flexDirection: 'row',
         gap: 20,

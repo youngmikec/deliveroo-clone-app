@@ -6,6 +6,7 @@ import { GooglePlacesAutocomplete } from "react-native-google-places-autocomplet
 
 
 import Colors from "@/constants/Colors";
+import { Ionicons } from "@expo/vector-icons";
 
 const LocationSearchModal = () => {
     const navigation = useNavigation();
@@ -20,15 +21,41 @@ const LocationSearchModal = () => {
         <>
             <View style={{ flex: 1 }}>
                 <GooglePlacesAutocomplete
-                    placeholder='Search'
+                    placeholder='Search or move the app'
+                    fetchDetails={true}
                     onPress={(data, details = null) => {
                         // 'details' is provided when fetchDetails = true
-                        console.log(data, details);
+                        const point = details?.geometry?.location;
+                        if (!point) return;
+                        setLocation({
+                            ...location,
+                            latitude: point.lat,
+                            longitude: point.lng,
+                        });
                     }}
                     query={{
                         key: process.env.EXPO_PUBLIC_GOOGLE_API_KEY,
                         language: 'en',
                     }}
+                    renderLeftButton={() => (
+                        <View style={styles.boxIcon}>
+                          <Ionicons name="search-outline" size={24} color={Colors.medium} />
+                        </View>
+                      )}
+                    styles={{
+                        container: {
+                          flex: 0,
+                        },
+                        textInput: {
+                          backgroundColor: Colors.grey,
+                          paddingLeft: 35,
+                          borderRadius: 10,
+                        },
+                        textInputContainer: {
+                          padding: 8,
+                          backgroundColor: '#fff',
+                        },
+                      }}
                 />
                 <MapView showsUserLocation={true} style={styles.map} region={location} />
 
@@ -62,6 +89,12 @@ const styles = StyleSheet.create({
         color: '#fff',
         fontWeight: 'bold',
         fontSize: 16
+    },
+    boxIcon: {
+        position: 'absolute',
+        left: 15,
+        top: 18,
+        zIndex: 1,
     }
 })
 

@@ -17,7 +17,6 @@ export const unstable_settings = {
 export default function RootLayoutNav() {
 
   const navigation = useNavigation();
-
   return (
     <BottomSheetModalProvider>
       <Stack>
